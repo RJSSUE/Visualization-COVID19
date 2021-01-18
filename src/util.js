@@ -2,6 +2,9 @@ var not_circular_parsed = null;
 var ori_parsed = null;
 var init_show_depth = 3;
 var cur_tree = null;
+var guide_tree = null;
+var ori_subtree = null;
+var last_subtree = null;
 
 function find_node(name, tmp_tree, ori_tree) {
     if (name === ori_tree.name)
@@ -37,4 +40,34 @@ function show_subtree(tmp_tree, ori_tree, show_depth) {
 
     }
     return new_json;
+}
+
+function edge_exist_in_subtree(source, target, my_tree) {
+    if (my_tree.name === source) {
+        if (my_tree.children) {
+            for (var i = 0; i < my_tree.children.length; ++i) {
+                if (my_tree.children[i].name === target)
+                    return 1;
+            }
+            return 0;
+        } else
+            return 0;
+    }
+    if (my_tree.children) {
+        for (var i = 0; i < my_tree.children.length; ++i) {
+            if (edge_exist_in_subtree(source, target, my_tree.children[i]) === 1)
+                return 1;
+        }
+    }
+    return 0;
+}
+
+function update_guide_tree() {
+    guide_tree.modify_selection(function(d) {
+        var source = d.source.name;
+        var target = d.target.name;
+        if (edge_exist_in_subtree(source, target, cur_tree) === 1)
+            return 1;
+        return 0;
+    });
 }

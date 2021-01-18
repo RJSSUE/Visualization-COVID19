@@ -4424,6 +4424,7 @@
                         "color-fill": !0,
                         "internal-names": !1,
                         selectable: !0,
+                        myshow: !1,
                         "restricted-selectable": !1,
                         collapsible: !0,
                         "left-right-spacing": "fixed-step",
@@ -4709,13 +4710,13 @@
                         var e = d3v3.select(A.container).select("#d3_layout_phylotree_context_menu");
                         if (e.empty() && (e = d3v3.select(A.container).append("ul").attr("id", "d3_layout_phylotree_context_menu").attr("class", "dropdown-menu").attr("role", "menu")), e.selectAll("li").remove(), t) {
                             if (!_.some([Boolean(t.menu_items), F.hide, F.selectable, F.collapsible]) || !F["show-menu"]) return;
-                            l(t) || (F.collapsible && (
+                            l(t) || (F.collapsible && F.myshow && (
                                     e.append("li").append("a").attr("tabindex", "-1").text(f(t) ? "Expand Subtree" : "Collapse Subtree")
                                     .on("click", function(n) {
                                         e.style("display", "none"), et.toggle_collapse(t).update()
                                     }),
 
-                                    e.append("li").append("a").attr("tabindex", "-1").text("My Hidden Subtree")
+                                    F.myshow && e.append("li").append("a").attr("tabindex", "-1").text("My Hidden Subtree")
                                     .on("click", function(n) {
                                         e.style("display", "none"), et.hidden_subtree(t).update()
                                     }),
@@ -4723,7 +4724,7 @@
 
                                     F.selectable && (e.append("li").attr("class", "divider"), e.append("li").attr("class", "dropdown-header").text("Toggle selection"))
                                 ),
-                                F.selectable && (e.append("li").append("a").attr("tabindex", "-1").text("All descendant branches").on("click", function(n) {
+                                F.selectable && F.myshow && (e.append("li").append("a").attr("tabindex", "-1").text("All descendant branches").on("click", function(n) {
                                         e.style("display", "none"), et.modify_selection(et.select_all_descendants(t, !0, !0))
                                     }),
                                     e.append("li").append("a").attr("tabindex", "-1").text("All terminal branches").on("click", function(n) {
@@ -4731,11 +4732,11 @@
                                     }),
                                     e.append("li").append("a").attr("tabindex", "-1").text("All internal branches").on("click", function(n) {
                                         e.style("display", "none"), et.modify_selection(et.select_all_descendants(t, !1, !0))
-                                    }))), t.parent && (F.selectable && (e.append("li").append("a").attr("tabindex", "-1").text("Incident branch").on("click", function(n) {
+                                    }))), t.parent && (F.selectable && F.myshow && (e.append("li").append("a").attr("tabindex", "-1").text("Incident branch").on("click", function(n) {
                                     e.style("display", "none"), et.modify_selection([t])
-                                }), e.append("li").append("a").attr("tabindex", "-1").text("Path to root").on("click", function(n) {
+                                }), F.myshow && e.append("li").append("a").attr("tabindex", "-1").text("Path to root").on("click", function(n) {
                                     e.style("display", "none"), et.modify_selection(et.path_to_root(t))
-                                }), (F.reroot || F.hide) && e.append("li").attr("class", "divider")), F.reroot && e.append("li").append("a").attr("tabindex", "-1").text("Reroot on this node").on("click", function(n) {
+                                }), (F.reroot || F.hide) && F.myshow && e.append("li").attr("class", "divider")), F.reroot && F.myshow && e.append("li").append("a").attr("tabindex", "-1").text("Reroot on this node").on("click", function(n) {
                                     e.style("display", "none"), et.reroot(t).update()
                                 }),
                                 e.append("li").append("a").attr("tabindex", "-1").text("Draw Subtree")
@@ -4746,7 +4747,7 @@
                                 .on("click", function(n) {
                                     e.style("display", "none"), et.release_one_layer(t).update()
                                 }),
-                                F.hide && e.append("li").append("a").attr("tabindex", "-1").text("Hide this " + (l(t) ? "node" : "subtree")).on("click", function(n) {
+                                F.hide && F.myshow && e.append("li").append("a").attr("tabindex", "-1").text("Hide this " + (l(t) ? "node" : "subtree")).on("click", function(n) {
                                     e.style("display", "none"), et.modify_selection([t], "notshown", !0, !0).update_has_hidden_nodes().update()
                                 })), h(t) && e.append("li").append("a").attr("tabindex", "-1").text("Show all descendant nodes").on("click", function(n) {
                                 e.style("display", "none"), et.modify_selection(et.select_all_descendants(t, !0, !0), "notshown", !0, !0, "false").update_has_hidden_nodes().update()
@@ -4995,7 +4996,26 @@
                         };
                         set_all_hidden(t);
                         return et.placenodes(), et
-                    }, et.draw_subtree = function(t) {
+                    }, et.back_to_origin = function() {
+                        last_subtree = JSON.parse(JSON.stringify(cur_tree));
+                        var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
+                        var result = find_node("root", tmp_parsed.json, ori_parsed.json);
+                        var tmp_tree = result[0];
+                        var ori_tree = result[1];
+                        var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);
+                        cur_tree = JSON.parse(JSON.stringify(new_json));
+                        et.update_layout(new_json, !0);
+                        update_guide_tree();
+                        return et
+                    }, et.back_to_last_step = function() {
+                        var tmp_parsed = JSON.parse(JSON.stringify(last_subtree));
+                        cur_tree = JSON.parse(JSON.stringify(tmp_parsed));
+                        et.update_layout(tmp_parsed, !0);
+                        update_guide_tree();
+                        return et
+                    },
+                    et.draw_subtree = function(t) {
+                        last_subtree = JSON.parse(JSON.stringify(cur_tree));
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
                         var result = find_node(t.name, tmp_parsed.json, ori_parsed.json);
                         var tmp_tree = result[0];
@@ -5003,9 +5023,11 @@
                         var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);
                         cur_tree = JSON.parse(JSON.stringify(new_json));
                         et.update_layout(new_json, !0);
+                        update_guide_tree();
                         return et
                     },
                     et.release_one_layer = function(t) {
+                        last_subtree = JSON.parse(JSON.stringify(cur_tree));
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
                         var result = find_node(t.name, tmp_parsed.json, ori_parsed.json);
                         var tmp_tree = result[0];
@@ -5041,8 +5063,8 @@
                         }
                         add_children(new_json, new_children);
                         cur_tree = JSON.parse(JSON.stringify(new_json));
-                        console.log(new_json);
                         et.update_layout(new_json, !0);
+                        update_guide_tree();
                         return et
                     },
                     et.toggle_collapse = function(t) {
