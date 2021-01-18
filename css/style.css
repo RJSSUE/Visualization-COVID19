@@ -1,0 +1,175 @@
+@font-face {
+    font-family: 'Khand-Regular';
+    src: url('./font/Khand-Regular.ttf');
+}
+@font-face {
+    font-family: 'KAITI';
+    src: url(./font/KAITI.ttf);
+}
+@font-face {
+    font-family: 'PingFangSC-Regular';
+    src: url(./font/PingFang-SC-Regular.ttf);
+}
+
+@media only screen and (min-width: 1080px) {
+    html {
+        font-size: 15px !important;
+    }
+}
+@media only screen and (min-width: 1440px) {
+    html {
+        font-size: 25px !important;
+    }
+}
+
+
+
+
+html,body {
+    width: 100%;
+    height: 150%;
+    font-size: 14px;
+    overflow: auto;
+    overflow: scroll;
+    padding: 0;
+    margin: 0;
+    background: whitesmoke;
+}
+
+h1 {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-family: "Proxima Nova", Montserrat, sans-serif;
+    font-size: 2em;
+    font-weight: 100;
+    color: #005DAA; /* offical UK Kentucky blue */
+}
+
+.country {
+    stroke: #fff;
+    fill:#005DAA;
+}
+.line-path{
+    fill: none;
+    stroke: blue;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+.line-path2{
+    fill: none;
+    stroke: cyan;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+.line-path3{
+    fill: none;
+    stroke: red;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+.line-path4{
+    fill: none;
+    stroke: green;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+.line-path5{
+    fill: none;
+    stroke: burlywood;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+.total{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.inter{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.system{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.AI{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.mixed{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.none{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.theory{
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.line-path6{
+    fill: none;
+    stroke: violet;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+.line-path7{
+    fill: none;
+    stroke: salmon;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+#container_map {
+    position: absolute;
+    /*position: absolute;*/
+    /*width: 2500px;*/
+    /*height: 1500px;*/
+    /*background-color: rgba(0, 0, 0, 0);*/
+    /*overflow: hidden;*/
+}
+#mainsvg{
+    
+    left: 30px;
+    top: 0px;
+}
+#linegraph{
+   
+    left: 120px;
+    top: 450px;
+}
+
+
+#tooltip{
+    position: absolute;           
+    text-align: center;
+    background-color: rgba(250, 250, 250, 0.8);
+    border: 1px solid rgb(200,200,200);
+    border-radius:5px;
+    font-size:11px;
+    padding:4px;
+    color:black;
+    z-index: 3;
+    visibility: hidden;
+    opacity: 1.0;
+}
+#container_background {
+    position: absolute;
+    width: 900px;
+    height: 600px;
+    background-color: rgba(240, 240, 240, 0.9);
+    overflow: hidden;
+    z-index: -1;
+}
+
+#time_bar {
+    left: 600px;
+    top: 100px;
+}
