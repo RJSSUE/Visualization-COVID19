@@ -346,11 +346,6 @@
 
     <script>
         function back_to_last_step() {
-            // console.log('hello');
-            // guide_tree.modify_selection(function(d) {
-            //     // console.log(d);
-            //     return true;
-            // });
             tree.back_to_last_step().update();
         }
 
@@ -841,7 +836,6 @@
                     error: null
                 };
                 not_circular_parsed = deep_copy(ori_parsed.json);
-                console.log(not_circular_parsed);
                 cur_tree = JSON.parse(JSON.stringify(new_json));
                 last_subtree = JSON.parse(JSON.stringify(cur_tree));
                 tree(new_parsed).svg(index_svg).layout();

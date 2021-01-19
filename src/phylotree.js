@@ -4980,7 +4980,6 @@
                                     return t
                                 }), e.children.push(s)
                             }
-                            // console.log(new_json);
                             et.update_layout(new_json, !0)
                         }
                         return et
@@ -5014,12 +5013,15 @@
                         return et
                     }, et.back_to_last_step = function() {
                         var tmp_parsed = JSON.parse(JSON.stringify(last_subtree));
+                        var tmp = JSON.parse(JSON.stringify(not_circular_parsed));
                         cur_tree = JSON.parse(JSON.stringify(tmp_parsed));
                         et.update_layout(tmp_parsed, !0);
                         update_guide_tree();
-                        // var result = find_node(t.name, tmp_parsed, ori_parsed.json);
-                        var tmp_tree = result[0];
-                        SubTreeReMapping(tmp_tree);
+                        var result = find_node(t.name, tmp, ori_parsed.json);
+                        if (result) {
+                            var tmp_tree = result[0];
+                            SubTreeReMapping(tmp_tree);
+                        }
                         return et
                     },
                     et.draw_subtree = function(t) {
@@ -5077,8 +5079,6 @@
                         return et
                     },
                     et.toggle_collapse = function(t) {
-                        // console.log('hello');
-                        // console.log(t);
                         if (t.collapsed) {
                             t.collapsed = !1;
                             var e = function(t) {
@@ -5279,17 +5279,14 @@
                         for (var e = []; t;) e.push(t), t = t.parent;
                         return e
                     }, et.response_to_guide_tree = function(t) {
-                        console.log('response');
                         last_subtree = JSON.parse(JSON.stringify(cur_tree));
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
                         var source = t.source.name;
-                        console.log(source);
                         var result = find_node(source, tmp_parsed, ori_parsed.json);
                         var tmp_tree = result[0];
                         var ori_tree = result[1];
                         var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);
                         cur_tree = JSON.parse(JSON.stringify(new_json));
-                        console.log(new_json);
                         tree.update_layout(new_json, !0);
                         tree.update();
                         update_guide_tree();
