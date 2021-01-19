@@ -4429,7 +4429,7 @@
                         collapsible: !0,
                         "left-right-spacing": "fixed-step",
                         "top-bottom-spacing": "fixed-step",
-                        "left-offset": 10,
+                        "left-offset": 0,
                         "show-scale": "top",
                         "draw-size-bubbles": !1,
                         "binary-selectable": !1,
@@ -4478,7 +4478,7 @@
                         return t.x
                     },
                     G = [1, 1],
-                    X = [30, 50],
+                    X = [30, 40],
                     H = 12,
                     K = 12,
                     Q = [0, H / 2],
@@ -4692,7 +4692,7 @@
                     }, et.size = function(t) {
                         return arguments.length && (N = t), "fixed-step" != F["top-bottom-spacing"] && (I[0] = N[0]), "fixed-step" != F["left-right-spacing"] && (I[1] = N[1]), arguments.length ? et : I
                     }, et.pad_height = function() {
-                        return draw_scale_bar ? K + 100 : 0
+                        return draw_scale_bar ? K + 25 : 0
                     }, et.pad_width = function() {
                         return Q[1] + F["left-offset"] + label_width
                     }, et.descendants = function(t) {
