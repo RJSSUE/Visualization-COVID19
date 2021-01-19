@@ -57,14 +57,18 @@
         }
         
         .layout-slider {
-            margin-bottom: 60px;
-            width: 600px;
-            padding-left: 300px
+            position:absolute;
+            top:0px;
+            left:350px;
+            /*padding-top: -10px;*/
+            /*margin-bottom: 60px;*/
+            width: 200px;
+            /*padding-left: 350px*/
         }
         
         .layout-slider-settings {
             font-size: 12px;
-            padding-bottom: 10px;
+            padding-bottom: 0px;
         }
         
         .layout-slider-settings pre {
@@ -100,11 +104,20 @@
                 padding-top: 50px;
             }
         }
-        
+        #container_map{
+            positioin:absolute;
+            top:0px;
+            left:10px;
+        }
+        #time_bar{
+            positioin:absolute;
+            top:500px;
+            left:10px;
+        }
         #guide {
             position: absolute;
-            top: 650px;
-            right: 100px;
+            top: 350px;
+            right: 20px;
             border-style: solid;
             border-color: black;
             border-width: 1px;
@@ -122,13 +135,14 @@
         
         #tree_container {
             position: absolute;
-            top: 700px;
-            left: 100px;
+            top: 100px;
+            left: 600px;
         }
         
         #toolbar {
             position: absolute;
-            top: 650px;
+            top: 50px;
+            left:700px;
         }
     </style>
 </head>
@@ -136,15 +150,14 @@
 <body>
     <div id='container_map'>
         <h1>Covid-19 world map</h1>
-        <svg width=1100 height=500 id="mainsvg" class="svgs"></svg>
-        <svg id='LineGraph' width=100% height=100% style='position:absolute; top:500px; left:50px' class="svgs"></svg>
+        <svg width=1100 height=700 id="mainsvg" class="svgs"></svg>
         <div class="time-bar" id="time_bar">
             <!--
             <div style="width:80%; margin:auto; ">
                 <div id="timeBarSlider"></div>
             </div>
             <br/>-->
-            <div style="width:100%; margin:auto; padding-left: 300px;">
+            <div style="width:100%; margin:auto; padding-left: 30px;">
                 <label><input type="text" id="date" value="" disabled/></label>
                 <input id="Button1" type="button" value="Play" />
                 <input id="Button2" type="button" value="Pause" />
@@ -211,6 +224,7 @@
                 }
             </script>
         </div>
+        <svg id='LineGraph' width=100% height=100% style='position:absolute; top:550px; left:0px; padding-top: 10px' class="svgs"></svg>
     </div>
     <div id='tooltip'></div>
 
@@ -329,10 +343,10 @@
         </div>
 
         <div class='row'>
+            <div id="guide">
+                <svg id="tree_guide"></svg>
+            </div>
             <div class='col-md-12'>
-                <div id="guide">
-                    <svg id="tree_guide"></svg>
-                </div>
                 <div id='tree_container' class='tree-widget'>
                     <svg id="tree_display"></svg>
                 </div>
@@ -784,8 +798,8 @@
                 parsed = d3v3.layout.newick_parser(newick);
                 not_circular_parsed = JSON.parse(JSON.stringify(parsed));
                 ori_parsed = JSON.parse(JSON.stringify(parsed));
-                var guide_height = 400,
-                    guide_width = 400;
+                var guide_height = 300,
+                    guide_width = 300;
 
                 d3v3.select('#guide')
                     .style('height', guide_height + 'px')

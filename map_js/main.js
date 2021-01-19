@@ -1,15 +1,14 @@
-let svg = d3.select('#container_map').select('#mainsvg');
 const width = 1200;
 const height = 700;
 const margin = {top: 70, right: 10, bottom: 10, left: 10};
-
+let svg = d3.select('#container_map').select('#mainsvg');
 const g = svg.append('g').attr('id', 'maingroup')
     .attr('opacity',0.5)
     .attr("stroke-width", 2)
     .attr("stroke-opacity", 0.3)
-    //.attr('transform', `translate(${margin.left}, ${margin.top})`);
-const gg = svg.append('g').attr('id', 'dots');;
-    //.attr('transform', `translate(${margin.left}, ${margin.top})`);
+    .attr('transform', `translate(${margin.left}, ${margin.top}) scale(0.8,0.8)`);
+const gg = svg.append('g').attr('id', 'dots')
+    .attr('transform', `translate(${margin.left}, ${margin.top}) scale(0.8,0.8)`);
 let padding = {'left': 30, 'bottom': 50, 'top': 50, 'right': 50};
 
 const projection = d3.geoEquirectangular()
@@ -198,7 +197,7 @@ function drawPie(dat, d, statNow, Date) {
 
 
 function drawLineChart(date, SelectedCountry) {
-    const ggg = d3.select('#container_map').select('#LineGraph')//svg.append('g').attr('id', 'LineChart');
+    const ggg = d3.select('#container_map').select('#LineGraph');
     ggg.selectAll('g').remove()
     ggg.selectAll('path').remove()
 
@@ -253,7 +252,7 @@ function drawLineChart(date, SelectedCountry) {
     }
 
 
-    x = d3.scaleTime().range([0, 1000])
+    x = d3.scaleTime().range([0, 660])
         .domain(d3.extent(weekly_data, function(d) { return d.date; }))
     let axis_x = d3.axisBottom().scale(x);
     ggg.append('g')
@@ -266,18 +265,18 @@ function drawLineChart(date, SelectedCountry) {
         .domain(d3.extent(weekly_data, function(d) { return d.CaseSum; }))
 
     let axis_y = d3.axisRight().scale(y).ticks(5);
-    
+
     ggg.append('g')
         .attr("class", "axis")
         .call(axis_y);
     ggg.append('g')
-        .attr('transform', `translate(${600}, ${150})`)
+        .attr('transform', `translate(${330}, ${160})`)
         .append('text')
         .attr('class', 'axis_label')
         .text('time')
-    
+
     ggg.append('g')
-        .attr('transform', `translate(${55}, ${10})`)
+        .attr('transform', `translate(${10}, ${0})`)
         .append('text')
         .attr('class', 'axis_label')
         .text('confirmed cases weekly')
@@ -291,7 +290,7 @@ function drawLineChart(date, SelectedCountry) {
         .datum(weekly_data)
         .attr('class','line-path')
         .attr('d', lineGenerator)
-        .attr('opacity',0.5)
+        .attr('opacity',0.5);
 
 }
 
