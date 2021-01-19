@@ -1,6 +1,6 @@
 var not_circular_parsed = null;
 var ori_parsed = null;
-var init_show_depth = 3;
+var init_show_depth = 5;
 var cur_tree = null;
 var guide_tree = null;
 var ori_subtree = null;

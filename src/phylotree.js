@@ -4429,7 +4429,7 @@
                         collapsible: !0,
                         "left-right-spacing": "fixed-step",
                         "top-bottom-spacing": "fixed-step",
-                        "left-offset": 0,
+                        "left-offset": 10,
                         "show-scale": "top",
                         "draw-size-bubbles": !1,
                         "binary-selectable": !1,
@@ -4478,7 +4478,7 @@
                         return t.x
                     },
                     G = [1, 1],
-                    X = [15, 20],
+                    X = [30, 50],
                     H = 12,
                     K = 12,
                     Q = [0, H / 2],
@@ -4692,7 +4692,7 @@
                     }, et.size = function(t) {
                         return arguments.length && (N = t), "fixed-step" != F["top-bottom-spacing"] && (I[0] = N[0]), "fixed-step" != F["left-right-spacing"] && (I[1] = N[1]), arguments.length ? et : I
                     }, et.pad_height = function() {
-                        return draw_scale_bar ? K + 25 : 0
+                        return draw_scale_bar ? K + 100 : 0
                     }, et.pad_width = function() {
                         return Q[1] + F["left-offset"] + label_width
                     }, et.descendants = function(t) {
@@ -5206,13 +5206,15 @@
                         })) : (a.enter().insert("path", ":first-child"), a.attr("class", j.clade).attr("d", function(t) {
                             return t.collapsed_clade = u(t.collapsed)
                         }));
+                        r.selectAll(p(j)).remove();
                         var g = r.selectAll(p(j)).data(Y.filter(n), function(t) {
                             return t.id || (t.id = ++e)
                         });
                         g.enter().append("g");
+                        console.log(g)
                         t ? (g.exit().transition().remove(), g = g.attr("transform", function(t) {
                             if (!_.isUndefined(t.screen_x) && !_.isUndefined(t.screen_y)) return "translate(" + t.screen_x + "," + t.screen_y + ")"
-                        }).transition()) : g.exit().remove(), g.attr("transform", function(t) {
+                        }).transition()) : g.exit().remove(), console.log(g), g.attr("transform", function(t) {
                             const e = "right-to-left" == F.layout && l(t);
                             return t.screen_x = q(t), t.screen_y = W(t), E([e ? 0 : t.screen_x, t.screen_y])
                         }).attr("class", et.reclass_node).each(function(e) {
@@ -5319,6 +5321,10 @@
                         })
                     }, et.draw_node = function(t, e, n) {
                         if (t = d3v3.select(t), l(e)) {
+                            if(F.collapsible){
+                                console.log(e);
+                                t.selectAll("text").remove();
+                            }
                             var r = t.selectAll("text").data([e]),
                                 i = t.selectAll("line");
                             if (n ? r.enter().append("text").style("opacity", 0).transition().style("opacity", 1) : r.enter().append("text"), r.on("click", et.handle_node_click).attr("dy", function(t) {

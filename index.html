@@ -650,7 +650,7 @@
         tree = d3v3.layout.phylotree("body")
             .size([index_height, index_width])
             .separation(function(a, b) {
-                return 0;
+                return 10;
             })
             .count_handler(function(count) {
                 $("#selected_branch_counter").text(function(d) {
