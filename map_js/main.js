@@ -527,13 +527,15 @@ function SubTreeReMapping(root) {
     var front = 0, end = 1;
     while(front < q.length) {
         var now = q[front ++];
-        if(now.name.length == 0) {
+        var item = strainInfoMap.get(now.name);
+        if(item == undefined) {
             for(i in now.children) {
                 q.push(now.children[i]);
             }
         } else {
-            filteredData.push(strainInfoMap.get(now.name));
+            filteredData.push(item);
         }
     }
+    
     remap(filteredData, 380, '');
 }
