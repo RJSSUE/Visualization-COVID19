@@ -5002,7 +5002,7 @@
                     }, et.back_to_origin = function() {
                         last_subtree = JSON.parse(JSON.stringify(cur_tree));
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
-                        var result = find_node("root", tmp_parsed.json, ori_parsed.json);
+                        var result = find_node("root", tmp_parsed, ori_parsed.json);
                         var tmp_tree = result[0];
                         var ori_tree = result[1];
                         var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);
@@ -5017,7 +5017,7 @@
                         cur_tree = JSON.parse(JSON.stringify(tmp_parsed));
                         et.update_layout(tmp_parsed, !0);
                         update_guide_tree();
-                        var result = find_node(t.name, tmp_parsed.json, ori_parsed.json);
+                        // var result = find_node(t.name, tmp_parsed, ori_parsed.json);
                         var tmp_tree = result[0];
                         SubTreeReMapping(tmp_tree);
                         return et
@@ -5025,7 +5025,7 @@
                     et.draw_subtree = function(t) {
                         last_subtree = JSON.parse(JSON.stringify(cur_tree));
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
-                        var result = find_node(t.name, tmp_parsed.json, ori_parsed.json);
+                        var result = find_node(t.name, tmp_parsed, ori_parsed.json);
                         var tmp_tree = result[0];
                         var ori_tree = result[1];
                         var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);
@@ -5038,7 +5038,7 @@
                     et.release_one_layer = function(t) {
                         last_subtree = JSON.parse(JSON.stringify(cur_tree));
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
-                        var result = find_node(t.name, tmp_parsed.json, ori_parsed.json);
+                        var result = find_node(t.name, tmp_parsed, ori_parsed.json);
                         var tmp_tree = result[0];
                         var ori_tree = result[1];
                         var new_json = JSON.parse(JSON.stringify(cur_tree));
@@ -5284,7 +5284,7 @@
                         var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
                         var source = t.source.name;
                         console.log(source);
-                        var result = find_node(source, tmp_parsed.json, ori_parsed.json);
+                        var result = find_node(source, tmp_parsed, ori_parsed.json);
                         var tmp_tree = result[0];
                         var ori_tree = result[1];
                         var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);

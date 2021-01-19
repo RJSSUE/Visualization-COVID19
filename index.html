@@ -834,12 +834,14 @@
                     .domain([0, document.body.scrollHeight])
                     .range([0, guide_height]);
 
-                var new_json = get_part(parsed.json, ori_parsed.json, init_show_depth);
+                // var new_json = get_part(parsed.json, ori_parsed.json, init_show_depth);
+                var new_json = show_subtree(parsed.json, ori_parsed.json, init_show_depth);
                 var new_parsed = {
                     json: new_json,
                     error: null
                 };
-
+                not_circular_parsed = deep_copy(ori_parsed.json);
+                console.log(not_circular_parsed);
                 cur_tree = JSON.parse(JSON.stringify(new_json));
                 last_subtree = JSON.parse(JSON.stringify(cur_tree));
                 tree(new_parsed).svg(index_svg).layout();

@@ -7,11 +7,30 @@ var ori_subtree = null;
 var last_subtree = null;
 var tree = null;
 
+function deep_copy(parsed) {
+    var new_json = {};
+    for (var key in parsed) {
+        // console.log(key);
+        if (key !== 'children' && key !== 'parent') {
+            // console.log('hello');
+            new_json[key] = parsed[key];
+        }
+    }
+    if (parsed.children) {
+        var new_children = [];
+        for (var i = 0; i < parsed.children.length; ++i) {
+            new_children.push(deep_copy(parsed.children[i]));
+        }
+        new_json.children = new_children;
+    }
+    return new_json;
+}
+
 function find_node(name, tmp_tree, ori_tree) {
     if (name === ori_tree.name)
         return [tmp_tree, ori_tree];
     if (ori_tree.children && tmp_tree.children) {
-        for (var i = 0; i < ori_tree.children.length; ++i) {
+        for (var i = 0; i < tmp_tree.children.length; ++i) {
             var res = find_node(name, tmp_tree.children[i], ori_tree.children[i]);
             if (res !== null)
                 return res;
@@ -32,14 +51,14 @@ function show_subtree(tmp_tree, ori_tree, show_depth) {
     if (!new_json.name || new_json.name === "") {
         new_json.name = ori_tree.name;
     }
-    if (tmp_tree.children && show_depth > 0) {
+    if (tmp_tree.children && tmp_tree.children.length > 0 && show_depth > 0) {
         var new_children = [];
         for (var i = 0; i < tmp_tree.children.length; ++i) {
             new_children.push(show_subtree(tmp_tree.children[i], ori_tree.children[i], show_depth - 1));
         }
         new_json.children = new_children;
-
-    }
+    } else
+        new_json.children = null;
     return new_json;
 }
 
