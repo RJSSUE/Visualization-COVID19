@@ -29,8 +29,6 @@ html,body {
     width: 100%;
     height: 150%;
     font-size: 14px;
-    overflow: auto;
-    overflow: scroll;
     padding: 0;
     margin: 0;
     background: whitesmoke;
