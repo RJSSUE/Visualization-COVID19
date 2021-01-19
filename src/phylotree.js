@@ -4706,7 +4706,10 @@
                         return arguments.length ? (S = t, et) : S
                     }, et.selection_label = function(t) {
                         return arguments.length ? (selection_attribute_name = t, et.sync_edge_labels(), et) : selection_attribute_name
-                    }, et.handle_node_click = function(t) {
+                    }, et.handle_edge_click = function(t) {
+                        var e = d3v3.select(A.container).select("#d3_layout_phylotree_context_menu");
+                    },
+                    et.handle_node_click = function(t) {
                         var e = d3v3.select(A.container).select("#d3_layout_phylotree_context_menu");
                         if (e.empty() && (e = d3v3.select(A.container).append("ul").attr("id", "d3_layout_phylotree_context_menu").attr("class", "dropdown-menu").attr("role", "menu")), e.selectAll("li").remove(), t) {
                             if (!_.some([Boolean(t.menu_items), F.hide, F.selectable, F.collapsible]) || !F["show-menu"]) return;
@@ -5275,8 +5278,30 @@
                     }, et.path_to_root = function(t) {
                         for (var e = []; t;) e.push(t), t = t.parent;
                         return e
-                    }, et.draw_edge = function(t, e, n) {
+                    }, et.response_to_guide_tree = function(t) {
+                        console.log('response');
+                        last_subtree = JSON.parse(JSON.stringify(cur_tree));
+                        var tmp_parsed = JSON.parse(JSON.stringify(not_circular_parsed));
+                        var source = t.source.name;
+                        console.log(source);
+                        var result = find_node(source, tmp_parsed.json, ori_parsed.json);
+                        var tmp_tree = result[0];
+                        var ori_tree = result[1];
+                        var new_json = show_subtree(tmp_tree, ori_tree, init_show_depth);
+                        cur_tree = JSON.parse(JSON.stringify(new_json));
+                        console.log(new_json);
+                        tree.update_layout(new_json, !0);
+                        tree.update();
+                        update_guide_tree();
+                        SubTreeReMapping(tmp_tree);
+                        return et
+                    },
+                    et.draw_edge = function(t, e, n) {
                         (t = d3v3.select(t)).attr("class", et.reclass_edge).on("click", function(t) {
+                            if (F.collapsible) {} else {
+                                et.response_to_guide_tree(t);
+                            }
+
                             et.modify_selection([t.target], selection_attribute_name)
                         });
                         var r = draw_branch([e.source, e.target]);

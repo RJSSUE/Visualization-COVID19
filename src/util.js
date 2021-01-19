@@ -5,6 +5,7 @@ var cur_tree = null;
 var guide_tree = null;
 var ori_subtree = null;
 var last_subtree = null;
+var tree = null;
 
 function find_node(name, tmp_tree, ori_tree) {
     if (name === ori_tree.name)

@@ -178,9 +178,9 @@
                                     record = i;
                                 }
                             }
-                            if(filteredData == null)
+                            if (filteredData == null)
                                 remap(dat, Number(v), record);
-                            else remap(filteredData, Number(v), record); 
+                            else remap(filteredData, Number(v), record);
                         }
                     });
                     jQuery("#Button1").on("click", function() {
@@ -199,7 +199,7 @@
                                         record1 = i;
                                     }
                                 }
-                                if(filteredData == null)
+                                if (filteredData == null)
                                     remap(dat, Number(currentDay), record1);
                                 else remap(filteredData, Number(currentDay), record1);
                             } else {
@@ -652,7 +652,7 @@
         color_scheme = d3v3.scale.category10(),
             selection_menu_element_action = "phylotree_menu_element_action";
 
-        var tree = d3v3.layout.phylotree("body")
+        tree = d3v3.layout.phylotree("body")
             .size([index_height, index_width])
             .separation(function(a, b) {
                 return 0;
@@ -665,6 +665,7 @@
             })
             .options({
                 'myshow': false,
+                'collapsible': false,
             });
         //.node_span (function (a) {if (a.children && a.children.length) return 1; return isNaN (parseFloat (a["attribute"]) * 100) ? 1 : parseFloat (a["attribute"]) * 100; });
 
@@ -803,7 +804,8 @@
                         'top-bottom-spacing': 'fit-to-size',
                         // fit to given size left-to-right
                         // disable selections on this tree
-                        'selectable': true
+                        'selectable': true,
+                        'collapsible': false,
                     })
                     .size([guide_height - 2, guide_width])
                     .node_circle_size(0);
