@@ -106,7 +106,7 @@ function parse2(s){
 d3.csv('./data/weekly_data.csv').then(function(DATA) {
     week_data = DATA;
 })
-function drawPie(d, statNow, Date) {
+function drawPie(dat, d, statNow, Date) {
     capitalListedData = []
     for (i in statNow) {
         capitalListedData.push(statNow[i])
@@ -139,9 +139,9 @@ function drawPie(d, statNow, Date) {
         .attr("opacity",0.6)
         .attr("d",function (d) {return arc(d);})
         .attr("transform","translate("+(projection([longitude, latitude])[0])+","+(projection([longitude, latitude])[1])+")")
-        .on("click", function(d) {
+        .on("click", function(d) {            
             selected_country[d.country] = (selected_country[d.country]+1)%3;
-            remap(Date, d.country);
+            remap(dat, Date, d.country);
             return;
         })
         .on("mouseover", function (d,i) {
@@ -193,7 +193,6 @@ function drawPie(d, statNow, Date) {
         .on("mouseout", function (d) {
             let tooltip = d3.select("#tooltip");
             tooltip.style("visibility", "hidden");
-
         })
 }
 
@@ -296,7 +295,7 @@ function drawLineChart(date, SelectedCountry) {
 
 }
 
-function remap(Date, SelectedCountry) {
+function remap(dat, Date, SelectedCountry) {
     if(SelectedCountry.length != 0) {
         gg.selectAll("path").remove();
         gg.selectAll("line").remove();
@@ -304,7 +303,7 @@ function remap(Date, SelectedCountry) {
         if(selected_country[SelectedCountry] == 1) {
         //    selected_country[SelectedCountry] = 1;
             drawLineChart(Date, SelectedCountry);
-            drawPie(SelectedCountry, capitalStat[SelectedCountry], Date)
+            drawPie(dat, SelectedCountry, capitalStat[SelectedCountry], Date)
             let linkSet = new Set();
             for (i in dat) {
                 //console.log(dat[i]["Collection Data"])
@@ -351,7 +350,7 @@ function remap(Date, SelectedCountry) {
         else if(selected_country[SelectedCountry] == 2){
         //    selected_country[SelectedCountry] = 2;
             drawLineChart(Date, SelectedCountry);
-            drawPie(SelectedCountry, capitalStat[SelectedCountry], Date)
+            drawPie(dat, SelectedCountry, capitalStat[SelectedCountry], Date)
             linkSet2 = new Set();
             for (i in dat) {
                 //console.log(dat[i]["Collection Data"])
@@ -398,7 +397,7 @@ function remap(Date, SelectedCountry) {
         }
         else {
         //    selected_country[SelectedCountry] = 0;
-            remap(Date, "");            
+            remap(dat, Date, "");            
         }
         return;
     }
@@ -428,7 +427,7 @@ function remap(Date, SelectedCountry) {
     }
     
     gg.selectAll("path").remove();
-    countrySet.forEach(d => {drawPie(d, capitalStat[d], Date)})
+    countrySet.forEach(d => {drawPie(dat, d, capitalStat[d], Date)})
     drawLineChart(Date, "");
 }
 
@@ -498,8 +497,6 @@ function draw() {
         .text(function(d) {
             return d.name;
         });
-
-    //remap(Date, "");
 }
 
 function main(){
@@ -509,10 +506,34 @@ function main(){
             country_capital = DATA;
             InitializeData();
             draw();
-            remap(380,'')
+            remap(dat, 380, '');
         })
     })
     
 }
 
 main();
+
+
+
+function SubTreeReMapping(root) {
+    if(root == null) {
+        filteredData = null;
+        remap(dat, 380, '');
+        return;
+    }
+    filteredData = [];
+    var q = [root];
+    var front = 0, end = 1;
+    while(front < q.length) {
+        var now = q[front ++];
+        if(now.name.length == 0) {
+            for(i in now.children) {
+                q.push(now.children[i]);
+            }
+        } else {
+            filteredData.push(strainInfoMap.get(now.name));
+        }
+    }
+    remap(filteredData, 380, '');
+}

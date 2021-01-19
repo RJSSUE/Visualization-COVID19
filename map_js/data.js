@@ -5,6 +5,8 @@ var cladeArr = ["19A", "19B", "20A", "20B", "20C", "20D", "20E (EU1)", "20F", "2
 var color = ["blueviolet","slateblue","royalblue","cornflowerblue","darkcyan","aquamarine", "lightgreen", "yellowgreen", "goldenrod", "orange", "orangered",  "red"]
 let capitalInfoMap = new Map();
 let capitalStat = []
+let filteredData = null;
+let strainInfoMap = new Map();
 //global variable
 var data_legend = [
     {
@@ -62,5 +64,9 @@ function InitializeData() {
         capitalinfo = country_capital.countries[i]
         capitalInfoMap.set(capitalinfo.country, capitalinfo)
         selected_country[capitalinfo.country] = 0
+    }
+
+    for (i in dat) {
+        strainInfoMap.set(dat[i]['Strain'], dat[i]);
     }
 }

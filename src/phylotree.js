@@ -5006,12 +5006,17 @@
                         cur_tree = JSON.parse(JSON.stringify(new_json));
                         et.update_layout(new_json, !0);
                         update_guide_tree();
+                        filteredData = null;
+                        SubTreeReMapping(null);
                         return et
                     }, et.back_to_last_step = function() {
                         var tmp_parsed = JSON.parse(JSON.stringify(last_subtree));
                         cur_tree = JSON.parse(JSON.stringify(tmp_parsed));
                         et.update_layout(tmp_parsed, !0);
                         update_guide_tree();
+                        var result = find_node(t.name, tmp_parsed.json, ori_parsed.json);
+                        var tmp_tree = result[0];
+                        SubTreeReMapping(tmp_tree);
                         return et
                     },
                     et.draw_subtree = function(t) {
@@ -5024,6 +5029,7 @@
                         cur_tree = JSON.parse(JSON.stringify(new_json));
                         et.update_layout(new_json, !0);
                         update_guide_tree();
+                        SubTreeReMapping(tmp_tree);
                         return et
                     },
                     et.release_one_layer = function(t) {

@@ -178,7 +178,9 @@
                                     record = i;
                                 }
                             }
-                            remap(Number(v), record);
+                            if(filteredData == null)
+                                remap(dat, Number(v), record);
+                            else remap(filteredData, Number(v), record); 
                         }
                     });
                     jQuery("#Button1").on("click", function() {
@@ -197,8 +199,9 @@
                                         record1 = i;
                                     }
                                 }
-                                //console.log(record1)
-                                remap(Number(currentDay), record1);
+                                if(filteredData == null)
+                                    remap(dat, Number(currentDay), record1);
+                                else remap(filteredData, Number(currentDay), record1);
                             } else {
                                 jQuery("#Button2").off("click");
                                 clearInterval(int);
