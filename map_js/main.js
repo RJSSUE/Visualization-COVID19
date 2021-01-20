@@ -185,7 +185,7 @@ function drawPie(dat, d, statNow, Date) {
                 [lo, la] = projection([longi, lati]);
             tooltip.html(txt)
                 //设置tooltip的位置
-                .style("left", lo+50+'px')
+                .style("left", lo*0.8+50+'px')
                 .style("top", la-5+'px')
                 .style("visibility", "visible");
         })
