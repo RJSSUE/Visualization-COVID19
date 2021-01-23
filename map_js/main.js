@@ -148,7 +148,7 @@ function drawPie(dat, d, statNow, Date) {
         .enter()
     arcs.append("path")
         .attr("fill",function(d, i){return color[i];})
-        .attr("opacity",0.6)
+        .attr("opacity",0.75)
         .attr("d",function (d) {return arc(d);})
         .attr("transform","translate("+(projection([longitude, latitude])[0])+","+(projection([longitude, latitude])[1])+")")
         .on("click", function(d) {            
@@ -215,58 +215,58 @@ function drawLineChart(date, SelectedCountry) {
     ggg.selectAll('path').remove()
 
     weekly_data = []
-    if(SelectedCountry.length == 0) {
-        let sum_date = []
-        let map_date = []
-        for(i in week_data) {
-            s = week_data[i].dateRep;
-            if(s == undefined)
-                continue;
-            datei = parse2(s);
-            if(date < datei)
-                continue;
-            if(sum_date[datei] == undefined) {
-                sum_date[datei] = 0;
-            }
-            Case = parseInt(week_data[i]["casesweekly"])
-            if(Case < 0) Case = -Case;
-            sum_date[datei] += Case;
-            let day = s.substring(0,2);
-            let month = s.substring(3,5);
-            let year = s.substring(6,10);
-            map_date[datei] = new Date(month+'/'+day+'/'+year);
+    let temp_weekly_data = []
+    let sum_date = []
+    let map_date = []
+    for(i in dat) {
+        if(SelectedCountry.length != 0 && dat[i]["Country of Exposure"] != SelectedCountry) {
+            continue;
         }
-        for(i in sum_date) {
+        datei = parse_date(""+dat[i]['Collection Data']);
+        if(datei > date) continue;
+        weeki = parseInt(datei / 7);
+        if(sum_date[weeki] == undefined) {
+            sum_date[weeki] = [];
+            map_date[weeki] = weekDateMap[weeki];
+        }
+        clade = dat[i]["Clade"];
+        if(sum_date[weeki][clade] == undefined) {
+            sum_date[weeki][clade] = 0;
+        }
+        sum_date[weeki][clade] ++;
+    }
+    for(j in cladeArr) {
+        weekly_data.push([]);
+        weekly_data[j].clade_index = j;
+        weekly_data[j].arr = []
+    }
+    for(i in sum_date) {
+        if(i == "NaN") continue;
+        sum = 0;
+        for(j in cladeArr) {
             let d = {}
-            d.CaseSum = sum_date[i];
+            if(sum_date[i][cladeArr[j]] == undefined) {
+                d.cladesumy0 = 0;
+                d.cladesumy1 = 0;
+            } else {
+                d.cladesumy0 = sum;
+                sum += sum_date[i][cladeArr[j]];  
+                d.cladesumy1 = sum; 
+            }
             d.date = map_date[i];
-            weekly_data.push(d);
-        }
-        // console.log(sum_date);
-        // console.log(weekly_data);
-    } else {
-        
-        for (i in week_data) {
-            s = week_data[i].dateRep;
-            if(s == undefined || week_data[i]["countriesAndTerritories"] != SelectedCountry || date < parse2(s)) 
-                continue;
-    
-            let day = s.substring(0,2);
-            let month = s.substring(3,5);
-            let year = s.substring(6,10);
-            var d = {};
-            d.date = new Date(month+'/'+day+'/'+year);
-            d.CaseSum = parseInt(week_data[i]["casesweekly"])
-    
-            if(d.CaseSum < 0)
-                d.CaseSum = -d.CaseSum;
-            weekly_data.push(d);
+            d.clade = cladeArr[j];
+            d.clade_index = j;
+            weekly_data[j].arr.push(d);
+            temp_weekly_data.push(d);
+            if(d.cladesumy0 == undefined) {console.log(d);}
         }
     }
+    // console.log(weekly_data)
+    
 
 
     x = d3.scaleTime().range([0, 660])
-        .domain(d3.extent(weekly_data, function(d) { return d.date; }))
+        .domain(d3.extent(temp_weekly_data, function(d) { return d.date; }))
     let axis_x = d3.axisBottom().scale(x);
     ggg.append('g')
         .attr("class", "axis")
@@ -275,7 +275,7 @@ function drawLineChart(date, SelectedCountry) {
         .call(axis_x);
 
     y = d3.scaleLinear().range([120, 0])
-        .domain(d3.extent(weekly_data, function(d) { return d.CaseSum; }))
+        .domain(d3.extent(temp_weekly_data, function(d) { return d.cladesumy1; }))
 
     let axis_y = d3.axisRight().scale(y).ticks(5);
 
@@ -287,7 +287,7 @@ function drawLineChart(date, SelectedCountry) {
         .append('text')
         .attr('class', 'axis_label')
         .text('time')
-
+/*
     ggg.append('g')
         .attr('transform', `translate(${10}, ${0})`)
         .append('text')
@@ -303,13 +303,28 @@ function drawLineChart(date, SelectedCountry) {
         .attr('class','line-path')
         .attr('d', lineGenerator)
         .attr('opacity',0.5);
+*/
 
+    // bars
+    console.log(weekly_data)
+    ggg.append('g')
+        .selectAll('g')
+        .data(weekly_data)
+        .enter().append('g')
+        .attr('fill', d => color[d.clade_index])
+        .selectAll('rect')
+        .data(d => d.arr)
+        .enter().append('rect')
+        .attr('x', d => x(d.date))
+        .attr('y', d => y(d.cladesumy1))
+        .attr('width', 10)
+        .attr('height', d => y(d.cladesumy0)-y(d.cladesumy1))
+        
 }
 
 function remap(dat, Date, SelectedCountry) {
     datedisplay.remove();
     let datey = to_format(Date);
-    console.log(datey);
     datedisplay = gg.append('text')
         .text(datey)
         .attr('x',350+'px')

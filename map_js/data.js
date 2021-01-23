@@ -7,6 +7,7 @@ let capitalInfoMap = new Map();
 let capitalStat = []
 let filteredData = null;
 let strainInfoMap = new Map();
+let weekDateMap = []
 //global variable
 var data_legend = [
     {
@@ -59,6 +60,28 @@ var data_legend = [
     }
 ];
 
+
+function collection_data(s){
+    s = s.toString();
+    let m_d = [31,29,31,30,31,30,31,31,30,31,30,31];
+    let year = parseInt(s.substring(0,4));
+    let month = parseInt(s.substring(5,7));
+    let day = parseInt(s.substring(8,10));
+    if(year == 2019)
+        return day-26+1;
+    if(year == 2020) {
+        let da = 6;
+        for(let i = 0; i < month-1; i++){
+            da += m_d[i];
+        }
+        da += day;
+        return da;
+    }
+    else{
+        return 6+366+day;
+    }
+}
+
 function InitializeData() {
     for (i in country_capital.countries) {
         capitalinfo = country_capital.countries[i]
@@ -69,4 +92,29 @@ function InitializeData() {
     for (i in dat) {
         strainInfoMap.set(dat[i]['Strain'], dat[i]);
     }
+
+    m_d = [31,29,31,30,31,30,31,31,30,31,30,31];
+    // 2019 31
+    year = 2019
+    month = 12
+    day = 22
+
+    for(var i = 0; ; ++ i) {
+        if(day + 7 <= m_d[month-1]) {
+            day += 7;
+        } else {
+            day = day + 7 - m_d[month-1];
+            month ++;
+            if(month == 13) {
+                month = 1;
+                year ++;
+            }
+        }
+        weekDateMap[i] = new Date(year+"-"+month+"-"+day);
+        // console.log(weekDateMap[i], i, year, month, day, year+"-"+month+"-"+day)
+        if(year == 2021 && day > 10) {
+            break;
+        }
+    }
+
 }
