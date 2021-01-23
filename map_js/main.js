@@ -9,8 +9,9 @@ const g = svg.append('g').attr('id', 'maingroup')
     .attr('transform', `translate(${margin.left}, ${margin.top}) scale(0.8,0.8)`);
 const gg = svg.append('g').attr('id', 'dots')
     .attr('transform', `translate(${margin.left}, ${margin.top}) scale(0.8,0.8)`);
+const ti = svg.append('g').attr('')
 let padding = {'left': 30, 'bottom': 50, 'top': 50, 'right': 50};
-
+let datedisplay;
 const projection = d3.geoEquirectangular()
     .center([0,30])  // 指定投影中心，注意[]中的是经纬度
     .scale(130)//150 originial
@@ -61,6 +62,7 @@ function to_format(d){
         month = 12;
     }
     else if(d <= 6+366){
+        year = 2020;
         let i = 0;
         let remain = d-6;
         while(remain > m_d[i]){
@@ -75,11 +77,22 @@ function to_format(d){
         day = d-6-366;
         month = 1;
     }
+    let tat = year.toString()+'-';
     if(month < 10){
-        return year.toString()+'-0'+month.toString()+'-'+day.toString();
+        tat += '0';
+        tat+=month.toString()+'-';
     }
     else{
-        return year.toString()+'-'+month.toString()+'-'+day.toString();
+        tat += month.toString()+'-';
+    }
+    if(day < 10){
+        tat+='0';
+        tat+=day.toString();
+        return tat;
+    }
+    else{
+        tat+=day.toString();
+        return tat;
     }
 }
 function parse2(s){
@@ -280,7 +293,6 @@ function drawLineChart(date, SelectedCountry) {
         .append('text')
         .attr('class', 'axis_label')
         .text('confirmed cases weekly')
-    
 
     const lineGenerator = d3.line()
                             .x(d=>x(d.date))
@@ -295,6 +307,16 @@ function drawLineChart(date, SelectedCountry) {
 }
 
 function remap(dat, Date, SelectedCountry) {
+    datedisplay.remove();
+    let datey = to_format(Date);
+    console.log(datey);
+    datedisplay = gg.append('text')
+        .text(datey)
+        .attr('x',350+'px')
+        .attr('y',40+'px')
+        .attr("stroke", "black")
+        .attr("stroke-width", 0.5)
+        .attr("font-size", 20);
     if(SelectedCountry.length != 0) {
         gg.selectAll("path").remove();
         gg.selectAll("line").remove();
@@ -433,7 +455,15 @@ function remap(dat, Date, SelectedCountry) {
 function draw() {
     let worldmeta;
     let lastid = undefined;
-
+    let datey = to_format(380);
+    console.log(datey);
+    datedisplay = gg.append('text')
+        .text(datey)
+        .attr('x',350+'px')
+        .attr('y',40+'px')
+        .attr("stroke", "black")
+        .attr("stroke-width", 0.5)
+        .attr("font-size", 20);
     d3.json('./data/countries-110m.json').then(
         function(data){
             // convert topo-json to geo-json;
@@ -448,16 +478,17 @@ function draw() {
                 .enter().append('path')
                 .attr('d', pathGenerator)
                 .attr('stroke', 'black')
+                .attr('opacity',0.4)
                 .attr('stroke-width', 1)
                 .on('mouseover',function(d){
                     d3.select(this)
-                        .attr("opacity", 0.5)
+                        .attr("opacity", 0.7)
                         .attr("stroke","white")
                         .attr("stroke-width", 6);
                 })
                 .on('mouseout', function(d){
                     d3.select(this)
-                        .attr("opacity", 1)
+                        .attr("opacity", 0.4)
                         .attr("stroke","black")
                         .attr("stroke-width",1);
                 })

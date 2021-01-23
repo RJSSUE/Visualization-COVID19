@@ -2,7 +2,7 @@ var dat = null;
 var country_capital = null;
 var selected_country = [];
 var cladeArr = ["19A", "19B", "20A", "20B", "20C", "20D", "20E (EU1)", "20F", "20G", "20H/501Y.V2", "20I/501Y.V1", "20J/501Y.V3"]
-var color = ["blueviolet","slateblue","royalblue","cornflowerblue","darkcyan","aquamarine", "lightgreen", "yellowgreen", "goldenrod", "orange", "orangered",  "red"]
+var color = ["#3A79AD","#EE8843","#549942","#C4433A","#8C85B6","#85594F", "#D486BF", "#7F7F7F", "#BDB84E", "#59BBCA", "#FFFF00",  "#7FFFAA"]
 let capitalInfoMap = new Map();
 let capitalStat = []
 let filteredData = null;
@@ -11,51 +11,51 @@ let strainInfoMap = new Map();
 var data_legend = [
     {
         "name":"19A",
-        "color":"blueviolet"
+        "color":"#3A79AD"
     },
     {
         "name":"19B",
-        "color":"slateblue"
+        "color":"#EE8843"
     },
     {
         "name":"20A",
-        "color":"royalblue"
+        "color":"#549942"
     },
     {
         "name":"20B",
-        "color":"cornflowerblue"
+        "color":"#C4433A"
     },
     {
         "name":"20C",
-        "color":"darkcyan"
+        "color":"#8C85B6"
     },
     {
         "name":"20D",
-        "color":"aquamarine"
+        "color":"#85594F"
     },
     {
         "name":"20E (EU1)",
-        "color":"lightgreen"
+        "color":"#D486BF"
     },
     {
         "name":"20F",
-        "color":"yellowgreen"
+        "color":"#7F7F7F"
     },
     {
         "name":"20G",
-        "color":"goldenrod"
+        "color":"#BDB84E"
     },
     {
         "name":"20H/501Y.V2",
-        "color":"orange"
+        "color":"#59BBCA"
     },
     {
         "name":"20I/501Y.V1",
-        "color":"orangered"
+        "color":"#FFFF00"
     },
     {
         "name":"20J/501Y.V3",
-        "color":"red"
+        "color":"#7FFFAA"
     }
 ];
 
